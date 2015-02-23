@@ -58,7 +58,7 @@
   -->
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
-    <Compile Include="Library.fs" />
+    <Compile Include="Reflection.fs" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
