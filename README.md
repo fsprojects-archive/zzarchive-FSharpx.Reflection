@@ -5,7 +5,7 @@
 
 # FSharpx.Reflection [![NuGet Status](http://img.shields.io/nuget/v/FSharpx.Reflection.svg?style=flat)](https://www.nuget.org/packages/FSharpx.Reflection/)
 
-**FSharpx.Reflection** is a collection of asynchronous programming utilities for F#. 
+**FSharpx.Reflection** is a collection of reflection utilities for F#.
 
 See [the home page](http://fsprojects.github.io/FSharpx.Reflection/) for details. The home page can be [edited, forked or cloned](https://github.com/fsprojects/FSharpx.Reflection/tree/gh-pages)
 Please contribute to this project. Don't ask for permission, just fork the repository and send pull requests.
