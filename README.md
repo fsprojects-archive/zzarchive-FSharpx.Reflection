@@ -10,8 +10,6 @@
 See [the home page](http://fsprojects.github.io/FSharpx.Reflection/) for details. The home page can be [edited, forked or cloned](https://github.com/fsprojects/FSharpx.Reflection/tree/gh-pages)
 Please contribute to this project. Don't ask for permission, just fork the repository and send pull requests.
 
-Please also join the [F# Open Source Group](http://fsharp.github.com)
-
 # Maintainer(s)
 
 - [@forki](https://github.com/forki)
@@ -19,4 +17,4 @@ Please also join the [F# Open Source Group](http://fsharp.github.com)
 - [@mausch](https://github.com/mausch)
 - [@panesofglass](https://github.com/panesofglass)
 
-The default maintainer account for projects under "fsprojects" is [@fsgit](https://github.com/fsgit) - F# Community Project Incubation Space (repo management)
+The default maintainer account for projects under "fsprojects" is [@fsprojectsgit](https://github.com/fsprojectsgit) - F# Community Project Incubation Space (repo management)
