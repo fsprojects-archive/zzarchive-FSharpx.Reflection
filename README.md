@@ -12,6 +12,7 @@ Please contribute to this project. Don't ask for permission, just fork the repos
 
 # Maintainer(s)
 
+- [@kurtschelfthout](https://github.com/kurtschelfthout)
 - [@forki](https://github.com/forki)
 - [@tpetricek](https://github.com/tpetricek)
 - [@mausch](https://github.com/mausch)
