@@ -18,6 +18,7 @@
   </metadata>
   <files>
     <file src="bin/FSharpx.Reflection.dll" target="lib/net40" />
+    <file src="bin/FSharpx.Reflection.pdb" target="lib/net40" />
     <file src="bin/FSharpx.Reflection.xml" target="lib/net40" />
   </files>
 </package>
