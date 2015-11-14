@@ -34,7 +34,7 @@ let summary = "Reflection helpers for F#"
 let description = "Reflections helpers for F#"
 
 // List of author names (for NuGet package)
-let authors = [ "Steffen Forkmann"; "Mauricio Scheffer"; "Eirik Tsarpalis" ]
+let authors = [ "Steffen Forkmann"; "Mauricio Scheffer"; "Eirik Tsarpalis"; "Kurt Schelfthout" ]
 
 // Tags for your project (for NuGet package)
 let tags = "F#, reflection"
