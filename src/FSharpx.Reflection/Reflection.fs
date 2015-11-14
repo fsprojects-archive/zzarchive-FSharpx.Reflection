@@ -368,27 +368,45 @@ namespace FSharpx.Reflection
     open Microsoft.FSharp.Reflection
     open FSharpx.ReflectImpl
 
+    ///Contains operations associated with constructing and analyzing values 
+    ///associated with F# types such as records, unions and tuples.
     type FSharpValue =
+        ///Generates a function for constructing a record value.
         static member PreComputeRecordConstructorFast(recordType:Type,?bindingFlags:BindingFlags) =
             preComputeRecordContructor(recordType,bindingFlags) |> ofFunc
+
+        ///Generates a function for constructing a union value.
         static member PreComputeUnionConstructorFast(unionCase:UnionCaseInfo, ?bindingFlags:BindingFlags) =
             preComputeUnionConstructor(unionCase,bindingFlags) |> ofFunc
+
+        ///Generates a function for constructing a function value.
         static member PreComputeTupleConstructorFast(tupleType:Type) =
             preComputeTupleConstructor tupleType |> ofFunc
+
+        ///Generates a function for constructing an exception.
         static member PreComputeExceptionConstructorFast(exceptionType:Type,?bindingFlags) =
             preComputeExceptionConstructor(exceptionType,bindingFlags) |> ofFunc
 
+        ///Precompute a function for reading all the fields from a record.
         static member PreComputeRecordReaderFast(recordType:Type, ?bindingFlags:BindingFlags) : obj -> obj[] =
             preComputeRecordReader(recordType,bindingFlags) |> ofOptionalFunc
+
+        ///Precompute a function for reading all the fields from a union case.
         static member PreComputeUnionReaderFast(unionCase:UnionCaseInfo, ?bindingFlags:BindingFlags) : obj -> obj[] =
             preComputeUnionReader(unionCase, bindingFlags) |> ofOptionalFunc
+
+        ///Precompute a function for reading all the fields from a tuple.
         static member PreComputeTupleReaderFast(tupleType:Type) : obj -> obj [] =
             preComputeTupleReader tupleType |> ofFunc
+
+        ///Precompute a function for reading all the fields from an exception.
         static member PreComputeExceptionReaderFast(exceptionType:Type,?bindingFlags) : obj -> obj [] =
             preComputeExceptionReader(exceptionType,bindingFlags) |> ofOptionalFunc
 
+        ///Precompute the ConstructorInfo of the given exception type.
         static member PreComputeExceptionConstructorInfo(exceptionType,?bindingFlags) : ConstructorInfo =
             FSharpx.ReflectImpl.preComputeExceptionConstructorInfo(exceptionType,bindingFlags)
 
+        ///Generates a function to read the tags of a union type.
         static member PreComputeUnionTagReaderFast(unionType:Type,?bindingFlags:BindingFlags) : obj -> int =
             FSharpx.ReflectImpl.preComputeUnionTagReader(unionType,bindingFlags) |> ofFunc
