@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>FSharpValue - FSharpx.Reflection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Thomas Petricek, David Thomas, Steffen Forkmann"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/FSharpx.Reflection/content/style.css" />
+    <script type="text/javascript" src="/FSharpx.Reflection/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="http://github.com/fsprojects/FSharpx.Reflection">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/FSharpx.Reflection/index.html">FSharpx.Reflection</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>FSharpValue</h1>
+<p>
+  <span>Namespace: FSharpx.Reflection</span><br />
+</p>
+<div class="xmldoc">
+<p>Contains operations associated with constructing and analyzing values 
+associated with F# types such as records, unions and tuples.</p>
+
+
+</div>
+  <h3>Static members</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Static member</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1', 1)" onmouseover="showTip(event, '1', 1)">
+            PreComputeExceptionConstructorFast(...)
+          </code>
+          <div class="tip" id="1">
+            <strong>Signature:</strong> (exceptionType:Type * bindingFlags:BindingFlags option) -&gt; obj [] -&gt; obj<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="http://github.com/fsprojects/FSharpx.Reflection/tree/master/src/FSharpx.Reflection/Reflection.fs#L387-387" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a function for constructing an exception.</p>
+
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '2', 2)" onmouseover="showTip(event, '2', 2)">
+            PreComputeExceptionConstructorInfo(...)
+          </code>
+          <div class="tip" id="2">
+            <strong>Signature:</strong> (exceptionType:Type * bindingFlags:BindingFlags option) -&gt; ConstructorInfo<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="http://github.com/fsprojects/FSharpx.Reflection/tree/master/src/FSharpx.Reflection/Reflection.fs#L407-407" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Precompute the ConstructorInfo of the given exception type.</p>
+
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '3', 3)" onmouseover="showTip(event, '3', 3)">
+            PreComputeExceptionReaderFast(...)
+          </code>
+          <div class="tip" id="3">
+            <strong>Signature:</strong> (exceptionType:Type * bindingFlags:BindingFlags option) -&gt; obj -&gt; obj []<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="http://github.com/fsprojects/FSharpx.Reflection/tree/master/src/FSharpx.Reflection/Reflection.fs#L403-403" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Precompute a function for reading all the fields from an exception.</p>
+
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '4', 4)" onmouseover="showTip(event, '4', 4)">
+            PreComputeRecordConstructorFast(...)
+          </code>
+          <div class="tip" id="4">
+            <strong>Signature:</strong> (recordType:Type * bindingFlags:BindingFlags option) -&gt; obj [] -&gt; obj<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="http://github.com/fsprojects/FSharpx.Reflection/tree/master/src/FSharpx.Reflection/Reflection.fs#L375-375" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a function for constructing a record value.</p>
+
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '5', 5)" onmouseover="showTip(event, '5', 5)">
+            PreComputeRecordReaderFast(...)
+          </code>
+          <div class="tip" id="5">
+            <strong>Signature:</strong> (recordType:Type * bindingFlags:BindingFlags option) -&gt; obj -&gt; obj []<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="http://github.com/fsprojects/FSharpx.Reflection/tree/master/src/FSharpx.Reflection/Reflection.fs#L391-391" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Precompute a function for reading all the fields from a record.</p>
+
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '6', 6)" onmouseover="showTip(event, '6', 6)">
+            PreComputeTupleConstructorFast(...)
+          </code>
+          <div class="tip" id="6">
+            <strong>Signature:</strong> tupleType:Type -&gt; obj [] -&gt; obj<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="http://github.com/fsprojects/FSharpx.Reflection/tree/master/src/FSharpx.Reflection/Reflection.fs#L383-383" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a function for constructing a function value.</p>
+
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '7', 7)" onmouseover="showTip(event, '7', 7)">
+            PreComputeTupleReaderFast(tupleType)
+          </code>
+          <div class="tip" id="7">
+            <strong>Signature:</strong> tupleType:Type -&gt; obj -&gt; obj []<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="http://github.com/fsprojects/FSharpx.Reflection/tree/master/src/FSharpx.Reflection/Reflection.fs#L399-399" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Precompute a function for reading all the fields from a tuple.</p>
+
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '8', 8)" onmouseover="showTip(event, '8', 8)">
+            PreComputeUnionConstructorFast(...)
+          </code>
+          <div class="tip" id="8">
+            <strong>Signature:</strong> (unionCase:UnionCaseInfo * bindingFlags:BindingFlags option) -&gt; obj [] -&gt; obj<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="http://github.com/fsprojects/FSharpx.Reflection/tree/master/src/FSharpx.Reflection/Reflection.fs#L379-379" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a function for constructing a union value.</p>
+
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '9', 9)" onmouseover="showTip(event, '9', 9)">
+            PreComputeUnionReaderFast(...)
+          </code>
+          <div class="tip" id="9">
+            <strong>Signature:</strong> (unionCase:UnionCaseInfo * bindingFlags:BindingFlags option) -&gt; obj -&gt; obj []<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="http://github.com/fsprojects/FSharpx.Reflection/tree/master/src/FSharpx.Reflection/Reflection.fs#L395-395" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Precompute a function for reading all the fields from a union case.</p>
+
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '10', 10)" onmouseover="showTip(event, '10', 10)">
+            PreComputeUnionTagReaderFast(...)
+          </code>
+          <div class="tip" id="10">
+            <strong>Signature:</strong> (unionType:Type * bindingFlags:BindingFlags option) -&gt; obj -&gt; int<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="http://github.com/fsprojects/FSharpx.Reflection/tree/master/src/FSharpx.Reflection/Reflection.fs#L411-411" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Generates a function to read the tags of a union type.</p>
+
+
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <img src="/FSharpx.Reflection/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">FSharpx.Reflection</li>
+            <li><a href="/FSharpx.Reflection/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.org/packages/FSharpx.Reflection">Get Library via NuGet</a></li>
+            <li><a href="http://github.com/fsprojects/FSharpx.Reflection">Source Code on GitHub</a></li>
+            <li><a href="/FSharpx.Reflection/license.html">License</a></li>
+            <li><a href="/FSharpx.Reflection/release-notes.html">Release Notes</a></li>
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/FSharpx.Reflection/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="http://github.com/fsprojects/FSharpx.Reflection"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>
