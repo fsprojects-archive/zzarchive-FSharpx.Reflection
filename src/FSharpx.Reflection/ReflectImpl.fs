@@ -1,4 +1,4 @@
-namespace FSharpx
+namespace FSharpx.Reflection
 
 //This uses some simple dynamic IL generation,
 //and a clever technique desribed by Jon Skeet here:
@@ -23,9 +23,7 @@ module internal ReflectImpl =
             | Some argId -> Arg argId
             | None -> LocalVar <| ilGen.DeclareLocal ty
 
-        member __.Type = ty
-
-        member e.Load () =
+        member __.Load () =
             match env with
             | Arg 0s -> ilGen.Emit OpCodes.Ldarg_0
             | Arg 1s -> ilGen.Emit OpCodes.Ldarg_1
@@ -34,20 +32,10 @@ module internal ReflectImpl =
             | Arg i -> ilGen.Emit (OpCodes.Ldarg_S, i)
             | LocalVar v -> ilGen.Emit(OpCodes.Ldloc, v)
 
-        member e.LoadAddress () =
-            match env with
-            | Arg i -> ilGen.Emit (OpCodes.Ldarg_S, i)
-            | LocalVar v -> ilGen.Emit(OpCodes.Ldloca, v)
-
-        member e.Store () =
+        member __.Store () =
             match env with
             | LocalVar v -> ilGen.Emit(OpCodes.Stloc, v)
             | _ -> invalidOp "cannot store to arg param."
-
-        member e.LocalBuilder =
-            match env with
-            | LocalVar v -> v
-            | _ -> invalidArg "EnvItem" "is not a local variable."
 
     and EnvDescriptor =
         | Arg of int16
@@ -60,8 +48,6 @@ module internal ReflectImpl =
 
         type private Marker = class end
 
-        let private voidType = Type.GetType("System.Void")
-
         let private createDynamicMethod (name : string) (argTypes : Type []) (returnType : Type) =
             let dyn =
                 new DynamicMethod(name, 
@@ -73,55 +59,11 @@ module internal ReflectImpl =
         let private compileDynamicMethod<'Dele when 'Dele :> Delegate> (dyn : DynamicMethod) =
             dyn.CreateDelegate(typeof<'Dele>) :?> 'Dele
 
-        let compileFunc<'T> (name : string) (builderF : ILGenerator -> unit) =
-            let dyn, ilGen = createDynamicMethod name [| |] typeof<'T>
-            do builderF ilGen
-            compileDynamicMethod<Func<'T>> dyn
-
         let compileFunc1<'U1,'V> (name : string) (builderF : EnvItem<'U1> -> ILGenerator -> unit) =
             let dyn, ilGen = createDynamicMethod name [| typeof<'U1> |] typeof<'V>
             let arg0 = EnvItem<'U1>(ilGen, 0s)
             do builderF arg0 ilGen
             compileDynamicMethod<Func<'U1,'V>> dyn
-
-        let compileFunc2<'U1,'U2,'V> (name : string) (builderF : EnvItem<'U1> -> EnvItem<'U2> -> ILGenerator -> unit) =
-            let dyn, ilGen = createDynamicMethod name [| typeof<'U1> ; typeof<'U2> |] typeof<'V>
-            let arg0 = EnvItem<'U1>(ilGen, 0s)
-            let arg1 = EnvItem<'U2>(ilGen, 1s)
-            do builderF arg0 arg1 ilGen
-            compileDynamicMethod<Func<'U1,'U2,'V>> dyn
-
-        let compileFunc3<'U1,'U2,'U3,'V> (name : string) (builderF : EnvItem<'U1> -> EnvItem<'U2> -> EnvItem<'U3> -> ILGenerator -> unit) =
-            let dyn, ilGen = createDynamicMethod name [| typeof<'U1> ; typeof<'U2> ; typeof<'U3> |] typeof<'V>
-            let arg0 = EnvItem<'U1>(ilGen, 0s)
-            let arg1 = EnvItem<'U2>(ilGen, 1s)
-            let arg2 = EnvItem<'U3>(ilGen, 2s)
-            do builderF arg0 arg1 arg2 ilGen
-            compileDynamicMethod<Func<'U1,'U2,'U3,'V>> dyn
-
-        let compileAction1<'U1> (name : string) (builderF : EnvItem<'U1> -> ILGenerator -> unit) =
-            let dyn, ilGen = createDynamicMethod name [| typeof<'U1> |] voidType
-            let arg0 = EnvItem<'U1>(ilGen, 0s)
-            do builderF arg0 ilGen
-            compileDynamicMethod<Action<'U1>> dyn
-
-        let compileAction2<'U1,'U2> (name : string) (builderF : EnvItem<'U1> -> EnvItem<'U2> -> ILGenerator -> unit) =
-            let dyn, ilGen = createDynamicMethod name [| typeof<'U1> ; typeof<'U2> |] voidType
-            let arg0 = EnvItem<'U1>(ilGen, 0s)
-            let arg1 = EnvItem<'U2>(ilGen, 1s)
-            do builderF arg0 arg1 ilGen
-            compileDynamicMethod<Action<'U1,'U2>> dyn
-
-        let compileAction3<'U1,'U2,'U3> (name : string) (builderF : EnvItem<'U1> -> EnvItem<'U2> -> EnvItem<'U3> -> ILGenerator -> unit) =
-            let dyn, ilGen = createDynamicMethod name [| typeof<'U1> ; typeof<'U2> ; typeof<'U3> |] voidType
-            let arg0 = EnvItem<'U1>(ilGen, 0s)
-            let arg1 = EnvItem<'U2>(ilGen, 1s)
-            let arg2 = EnvItem<'U3>(ilGen, 2s)
-            do builderF arg0 arg1 arg2 ilGen
-            compileDynamicMethod<Action<'U1,'U2,'U3>> dyn
-
-    let isOptionTy (t : Type) =
-        t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<_ option>
 
     let isGetterMethod (declaringType : Type) (m : MethodInfo) =
         not m.IsStatic 
@@ -172,18 +114,6 @@ module internal ReflectImpl =
             ilGen.Emit(OpCodes.Newobj, ctorInfo)
             if ctorInfo.DeclaringType.IsValueType then ilGen.Emit(OpCodes.Box, ctorInfo.DeclaringType)
             ilGen.Emit OpCodes.Ret)
-
-    let preComputeGetterMethod (declaringType : Type) (getter : MethodInfo) =
-        assert isGetterMethod declaringType getter
-
-        DynamicMethod.compileFunc1<obj, obj> "untypedGetter" (fun self ilGen ->
-            self.Load ()
-            ilGen.Emit(OpCodes.Unbox_Any, declaringType)
-            ilGen.EmitCall(OpCodes.Call, getter, null)
-            if getter.ReturnType.IsValueType then ilGen.Emit(OpCodes.Box, getter.ReturnType)
-
-            ilGen.Emit OpCodes.Ret)
-
 
     // bundles multiple property getters in one dynamic method
     let preComputeGetterMethods (declaringType : Type) (getters : MethodInfo []) =
@@ -339,7 +269,6 @@ module internal ReflectImpl =
 
     // fast union tag reader
     let preComputeUnionTagReader(union : Type, bindingFlags) =
-        let isPrivate = wantNonPublic bindingFlags
         let tagGetter =
             match FSharpValue.PreComputeUnionTagMemberInfo(union, ?bindingFlags = bindingFlags) with
             | null -> invalidArg "bindingFlags" "The union type is private. You must specify BindingFlags.NonPublic to access private type representations."
@@ -359,54 +288,3 @@ module internal ReflectImpl =
         match f with
         | None -> fun _ -> [||]
         | Some f -> f.Invoke
-
-
-namespace FSharpx.Reflection
-
-    open System
-    open System.Reflection
-    open Microsoft.FSharp.Reflection
-    open FSharpx.ReflectImpl
-
-    ///Contains operations associated with constructing and analyzing values 
-    ///associated with F# types such as records, unions and tuples.
-    type FSharpValue =
-        ///Generates a function for constructing a record value.
-        static member PreComputeRecordConstructorFast(recordType:Type,?bindingFlags:BindingFlags) =
-            preComputeRecordContructor(recordType,bindingFlags) |> ofFunc
-
-        ///Generates a function for constructing a union value.
-        static member PreComputeUnionConstructorFast(unionCase:UnionCaseInfo, ?bindingFlags:BindingFlags) =
-            preComputeUnionConstructor(unionCase,bindingFlags) |> ofFunc
-
-        ///Generates a function for constructing a function value.
-        static member PreComputeTupleConstructorFast(tupleType:Type) =
-            preComputeTupleConstructor tupleType |> ofFunc
-
-        ///Generates a function for constructing an exception.
-        static member PreComputeExceptionConstructorFast(exceptionType:Type,?bindingFlags) =
-            preComputeExceptionConstructor(exceptionType,bindingFlags) |> ofFunc
-
-        ///Precompute a function for reading all the fields from a record.
-        static member PreComputeRecordReaderFast(recordType:Type, ?bindingFlags:BindingFlags) : obj -> obj[] =
-            preComputeRecordReader(recordType,bindingFlags) |> ofOptionalFunc
-
-        ///Precompute a function for reading all the fields from a union case.
-        static member PreComputeUnionReaderFast(unionCase:UnionCaseInfo, ?bindingFlags:BindingFlags) : obj -> obj[] =
-            preComputeUnionReader(unionCase, bindingFlags) |> ofOptionalFunc
-
-        ///Precompute a function for reading all the fields from a tuple.
-        static member PreComputeTupleReaderFast(tupleType:Type) : obj -> obj [] =
-            preComputeTupleReader tupleType |> ofFunc
-
-        ///Precompute a function for reading all the fields from an exception.
-        static member PreComputeExceptionReaderFast(exceptionType:Type,?bindingFlags) : obj -> obj [] =
-            preComputeExceptionReader(exceptionType,bindingFlags) |> ofOptionalFunc
-
-        ///Precompute the ConstructorInfo of the given exception type.
-        static member PreComputeExceptionConstructorInfo(exceptionType,?bindingFlags) : ConstructorInfo =
-            FSharpx.ReflectImpl.preComputeExceptionConstructorInfo(exceptionType,bindingFlags)
-
-        ///Generates a function to read the tags of a union type.
-        static member PreComputeUnionTagReaderFast(unionType:Type,?bindingFlags:BindingFlags) : obj -> int =
-            FSharpx.ReflectImpl.preComputeUnionTagReader(unionType,bindingFlags) |> ofFunc

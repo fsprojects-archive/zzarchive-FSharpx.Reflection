@@ -57,14 +57,17 @@
   <Import Project="$(FSharpTargetsPath)" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
-    <Compile Include="Tests.fs" />
+    <Compile Include="RecordTest.fs" />
+    <Compile Include="UnionTest.fs" />
+    <Compile Include="ExceptionTests.fs" />
+    <Compile Include="TupleTest.fs" />
+    <Compile Include="PerformanceTest.fs" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\FSharpx.Reflection\FSharpx.Reflection.fsproj">
